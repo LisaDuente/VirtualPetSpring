@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PetTest {
     Pet pet = new Pet("Lara");
     Food apple = new Food("Apple", 2,1.00f);
-
+/*
     @org.junit.jupiter.api.Test
     void feed() {
         //input
@@ -42,6 +42,8 @@ class PetTest {
         //result
         assertEquals(0, pet.getHungryPoints());
     }
+
+ */
 
     @org.junit.jupiter.api.Test
     void calm() {

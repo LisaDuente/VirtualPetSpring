@@ -1,9 +1,14 @@
 package com.example.VirtualPetSpring;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.beans.beancontext.BeanContext;
 import java.util.Random;
-
+@Component
 public class Pet {
 
     public enum PetState{
@@ -26,7 +31,7 @@ public class Pet {
 
     //might be a little boring for the kid and adult because it won't happen that much
     private int timeToUpdate;
-    final int BABYTIME = 60;
+    final int BABYTIME = 6;//0;
     final int KIDTIME = 300;
     final int ADULTTIME = 600;
 
@@ -64,9 +69,10 @@ public class Pet {
         this.deathCount = 0;
     }
 
-    public void feed(Food item){
+    //add food?
+    public void feed(){
         if(this.hungryPoints > 0 && this.hungryPoints <= 10 ){
-            this.hungryPoints = this.hungryPoints - item.getPoints();
+            this.hungryPoints = this.hungryPoints - 2;
             //can't be less than 0
             if(this.hungryPoints < 0){
                 this.hungryPoints = 0;
@@ -84,9 +90,10 @@ public class Pet {
         }
     }
 
-    public void play(Toy toy){
+    //add a toy?
+    public void play(){
         if(this.boredPoints > 0 && this.boredPoints <= 10 ){
-            this.boredPoints= this.boredPoints - toy.getPoints();
+            this.boredPoints= this.boredPoints - 2;
             //can't be less than 0
             if(this.boredPoints < 0){
                 this.boredPoints = 0;
