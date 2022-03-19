@@ -1,5 +1,7 @@
 package com.example.VirtualPetSpring;
 
+import org.springframework.web.bind.annotation.GetMapping;
+
 import java.util.Random;
 
 public class Pet {
@@ -138,7 +140,7 @@ public class Pet {
                     updatePoints();
                     //show state and points
                     System.out.println(this.state);
-                    getAllPoints();
+                    System.out.println(getAllPoints());
                     //one minute
                     this.timeToUpdate =  BABYTIME;
                     this.timeToEvolve++;
@@ -238,14 +240,14 @@ public class Pet {
         }
     }
 
-    public void getAllPoints(){
-        System.out.println(
+    public String getAllPoints(){
+        return
                 "sleep: "+this.sleepPoints
                         +"\n hungry: "+this.hungryPoints
                         +"\n angry: "+this.angryPoints
                         +"\n bored: "+this.boredPoints
                         +"\n dirty: "+this.dirtyPoints
-                        +"\n death: "+this.deathCount);
+                        +"\n death: "+this.deathCount;
     }
 
     @Override
