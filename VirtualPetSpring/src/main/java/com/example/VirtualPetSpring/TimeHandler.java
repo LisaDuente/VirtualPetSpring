@@ -24,7 +24,14 @@ public class TimeHandler {
                 this.accumulator-= this.updateTime;
                 pet.live();
                 System.out.println("tik");
+                doPetMovement(pet);
             }
+        }
+    }
+
+    public void doPetMovement(Pet pet){
+        if(pet.getPosX() < 400) {
+            pet.setPosX(pet.getPosX() + 5);
         }
     }
 }

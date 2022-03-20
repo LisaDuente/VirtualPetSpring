@@ -1,12 +1,14 @@
 package com.example.VirtualPetSpring;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.beans.beancontext.BeanContext;
+import org.springframework.stereotype.Component;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Random;
 @Component
 public class Pet {
@@ -32,8 +34,8 @@ public class Pet {
     //might be a little boring for the kid and adult because it won't happen that much
     private int timeToUpdate;
     final int BABYTIME = 6;//0;
-    final int KIDTIME = 300;
-    final int ADULTTIME = 600;
+    final int KIDTIME = 12;
+    final int ADULTTIME = 18;
 
     private int timeToEvolve;
     //after 20 minutes
@@ -49,6 +51,11 @@ public class Pet {
     private int sleepPoints;
     private int angryPoints;
     private int deathCount;
+
+    private int posX;
+    private int posY;
+    private BufferedImage pet;
+    File petPath;
 
     public Pet (){
 
@@ -67,6 +74,14 @@ public class Pet {
         this.sleepPoints = 0;
         this.angryPoints = 0;
         this.deathCount = 0;
+        this.petPath = new File("src/main/resources/Sprites/Test.png");
+        try {
+            this.pet = ImageIO.read(petPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.posX = 100;
+        this.posY = 200;
     }
 
     //add food?
@@ -350,5 +365,25 @@ public class Pet {
 
     public void setDeathCount(int deathCount) {
         this.deathCount = deathCount;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public BufferedImage getPet() {
+        return pet;
     }
 }

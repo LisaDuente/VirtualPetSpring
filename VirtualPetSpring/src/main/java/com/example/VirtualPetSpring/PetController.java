@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.image.BufferedImage;
+
 
 @RestController
 public class PetController {
@@ -95,6 +97,21 @@ public class PetController {
     @GetMapping("/getAllPoints")
     public String getAllPoints(){
         return pet.getAllPoints();
+    }
+
+    @GetMapping("/getX")
+    public int getPosX(){
+        return pet.getPosX();
+    }
+
+    @GetMapping("/getY")
+    public int getPosY(){
+        return pet.getPosY();
+    }
+
+    @GetMapping("/getPetSprite")
+    public BufferedImage getPet(){
+        return pet.getPet();
     }
 
 }

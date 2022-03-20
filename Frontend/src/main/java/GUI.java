@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
     ConnectionManager connector;
@@ -13,9 +14,9 @@ public class GUI extends JFrame {
     private JTextField insertUserName;
     private JButton enterUserName;
 //________________________
-private JPanel petPanel;
+    private JPanel petPanel;
 
-    private JPanel virtualPet;
+    private PaintPanel virtualPet;
     private JTextField stats;
 
     private JPanel controlArea;
@@ -24,6 +25,7 @@ private JPanel petPanel;
     private JButton clean;
     private JButton play;
     private JButton calm;
+
 
 //________________________
 
@@ -63,7 +65,7 @@ private JPanel petPanel;
 
     //define petPanel
         this.petPanel = new JPanel();
-        this.virtualPet = new JPanel();
+        this.virtualPet = new PaintPanel();
         this.stats = new JTextField();
         this.controlArea = new JPanel();
         this.feed = new JButton("Feed");
@@ -87,17 +89,18 @@ private JPanel petPanel;
 
         this.petPanel.setBounds(0,0,500,500);
         this.petPanel.setLayout(null);
-        this.virtualPet.setBounds(0,0,500,300);
+        this.virtualPet.setBounds(0,60,500,300);
         this.controlArea.setBounds(0,400,500,50);
         this.stats.setBounds(0,0,500,50);
         this.stats.setText(this.connector.sendGetRequest("getAllPoints"));
+
 
         //needs maybe to be synchronized to allow other things on the connection
         this.updateStats = new Thread(() -> {
             while(true){
                 this.stats.setText(this.connector.sendGetRequest("getAllPoints"));
                try {
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -116,10 +119,10 @@ private JPanel petPanel;
         this.controlArea.setVisible(false);
 
         this.virtualPet.setLayout(null);
-        this.virtualPet.add(this.stats);
         this.virtualPet.setVisible(false);
 
         this.petPanel.add(this.virtualPet);
+        this.petPanel.add(this.stats);
         this.petPanel.add(this.controlArea);
         this.petPanel.setVisible(false);
 
