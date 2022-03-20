@@ -54,6 +54,7 @@ public class Pet {
 
     private int posX;
     private int posY;
+    private boolean walkingRight;
     private BufferedImage pet;
     File petPath;
 
@@ -82,6 +83,23 @@ public class Pet {
         }
         this.posX = 100;
         this.posY = 200;
+        this.walkingRight = false;
+    }
+
+    public void move(){
+        if(!this.walkingRight){
+            if(this.posX <= 400) {
+                this.posX += 5;
+            }else{
+                this.walkingRight = true;
+            }
+        }else{
+            if(this.posX >= 100){
+                this.posX -=5;
+            }else{
+                this.walkingRight = false;
+            }
+        }
     }
 
     //add food?
@@ -385,5 +403,9 @@ public class Pet {
 
     public BufferedImage getPet() {
         return pet;
+    }
+
+    public boolean isWalkingRight() {
+        return walkingRight;
     }
 }

@@ -114,4 +114,9 @@ public class PetController {
         return pet.getPet();
     }
 
+    @GetMapping("/isWalkingRight")
+    public boolean isWalkingRight(){
+        return pet.isWalkingRight();
+    }
+
 }

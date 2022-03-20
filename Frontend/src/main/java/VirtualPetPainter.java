@@ -10,16 +10,28 @@ public class VirtualPetPainter implements Painter {
 
     @Override
     public void paint(Graphics2D g, Object object, int width, int height) {
-        File petFile = new File("Frontend/src/main/resources/Test.png");
+
         int petX = Integer.parseInt(connect.sendGetRequest("getX"));
         int petY = Integer.parseInt(connect.sendGetRequest("getY"));
-
-        try {
-            BufferedImage pet = ImageIO.read(petFile);
-            g.drawImage(pet,petX,petY,null);
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean walkingRight = Boolean.parseBoolean(connect.sendGetRequest("isWalkingRight"));
+        if(!walkingRight){
+            File petFile = new File("Frontend/src/main/resources/TestWalkingR.gif");
+            try {
+                BufferedImage pet = ImageIO.read(petFile);
+                g.drawImage(pet,petX,petY,null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            File petFile = new File("Frontend/src/main/resources/TestWalking.gif");
+            try {
+                BufferedImage pet = ImageIO.read(petFile);
+                g.drawImage(pet,petX,petY,null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
 
     }
