@@ -3,14 +3,11 @@ package com.example.VirtualPetSpring;
 
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 @Component
 public class Pet {
 
+//ENUMS
     public enum MoveState{
         IDLE,
         WALKING,
@@ -33,25 +30,26 @@ public class Pet {
         ADULT,
         DEAD
     }
+//BASICS
     private String name;
     private PetState state;
     private PetAge age;
     private MoveState moveState;
 
-    //might be a little boring for the kid and adult because it won't happen that much
+//UPDATE TIMES
     private int timeToUpdate;
-    final int BABYTIME = 60*TimeHandler.FPS;//0;
+    //we have 30 FPS and want an update after 1 minute, 2 minutes, 3 minutes
+    final int BABYTIME = 60*TimeHandler.FPS;
     final int KIDTIME = 120*TimeHandler.FPS;
     final int ADULTTIME = 180*TimeHandler.FPS;
 
+//EVOLVING TIMES
     private int timeToEvolve;
-    //after 20 minutes
     final int BABYEVOLVE = 20;
-    //after 2h
     final int KIDEVOLVE = 24;
-    //after 4h
     final int DIE = 24;
 
+//POINTS
     private int hungryPoints;
     private int boredPoints;
     private int dirtyPoints;
@@ -59,48 +57,48 @@ public class Pet {
     private int angryPoints;
     private int deathCount;
 
+//POSITION ON SCREEN
     private int posX;
     private int posY;
     private boolean walkingRight;
-    final int SPRSIZEX = 48;
-    final int SPRSIZEY = 48;
-    private BufferedImage pet;
-    File petPath;
+    private final int SPR_SIZE_X = 48;
+    private final int SPR_SIZE_Y = 48;
+
+//ANIMATION SPEEDS / FRAMES
+    private final int WALK_SPEED = 5;
+    private final int WALK_FRAMES = 4;
 
     public Pet (){
 
     }
 
     public Pet(String name){
+        //BASICS
         this.name = name;
         this.age = PetAge.BABY;
         this.state = PetState.HUNGRY;
         this.moveState = MoveState.WALKING;
-        //1 minutes until next update in living()
+        //TIMES
         this.timeToUpdate = BABYTIME;
         this.timeToEvolve = 0;
+        //POINTS
         this.hungryPoints = 10;
         this.boredPoints = 10;
         this.dirtyPoints = 0;
         this.sleepPoints = 0;
         this.angryPoints = 0;
         this.deathCount = 0;
-        this.petPath = new File("src/main/resources/Sprites/Test.png");
-        try {
-            this.pet = ImageIO.read(petPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //POSITION
         this.posX = 100;
         this.posY = 200;
         this.walkingRight = false;
     }
 
-//move methods
+//MOVE METHODS
 
     public void move(){
         if(!this.walkingRight){
-            if(this.posX <= (400-SPRSIZEX)) {
+            if(this.posX <= (400- SPR_SIZE_X)) {
                 this.posX += 1;
             }else{
                 this.walkingRight = true;
@@ -114,11 +112,13 @@ public class Pet {
         }
     }
 
+//ANIMATION METHODS
+
     public int chooseWalkingSprite(){
-        return (this.timeToUpdate/15)%2;
+        return (this.timeToUpdate/WALK_SPEED)% WALK_FRAMES;
     }
 
-//caring methods
+//CARING METHODS
     //add food?
     public void feed(){
         if(this.hungryPoints > 0 && this.hungryPoints <= 10 ){
@@ -153,10 +153,7 @@ public class Pet {
 
     public void sleep(){
         if(this.sleepPoints > 0 && this.sleepPoints<=10){
-            this.sleepPoints--;
-            if(this.sleepPoints < 0){
-                this.sleepPoints = 0;
-            }
+            this.sleepPoints = 0;
         }
     }
 
@@ -166,40 +163,33 @@ public class Pet {
         }
     }
 
-//living and evolving
+//LIVING AND EVOLVING
     public void evolve(){
-        switch(this.age){
-            case BABY:
+        switch (this.age) {
+            case BABY -> {
                 System.out.println("Evolving");
                 this.age = PetAge.KID;
                 this.timeToUpdate = KIDTIME;
-                break;
-            case KID:
+            }
+            case KID -> {
                 System.out.println("Evolving");
                 this.age = PetAge.ADULT;
                 this.timeToUpdate = ADULTTIME;
-                break;
-            case ADULT:
+            }
+            case ADULT -> {
                 System.out.println("Evolving");
                 this.age = PetAge.DEAD;
-                break;
+            }
         }
     }
-    //needs time in milliseconds
+
     public void live(){
         this.timeToUpdate--;
-        //as long as the pet is not dead
         switch(this.age){
             case BABY:
                 if(this.timeToUpdate <= 0){
-                    //update state
                     chooseRandomState();
-                    //update points
                     updatePoints();
-                    //show state and points
-                    System.out.println(this.state);
-                    System.out.println(getAllPoints());
-                    //one minute
                     this.timeToUpdate =  BABYTIME;
                     this.timeToEvolve++;
                     if( timeToEvolve > BABYEVOLVE){
@@ -212,7 +202,6 @@ public class Pet {
                 if(this.timeToUpdate <= 0){
                     chooseRandomState();
                     updatePoints();
-                    //five minutes
                     this.timeToUpdate =  KIDTIME;
                     this.timeToEvolve++;
                     if(this.timeToEvolve > KIDEVOLVE){
@@ -239,7 +228,6 @@ public class Pet {
         }
     }
 
-    //check this
     public void chooseRandomState(){
         Random random = new Random();
         PetState[] states = {PetState.BORED,PetState.SLEEPY,PetState.ANGRY,PetState.DIRTY,PetState.HUNGRY};
@@ -298,7 +286,7 @@ public class Pet {
         }
     }
 
-//Returns, setter and getter
+//GETTER AND SETTER
 
     public String getAllPoints(){
         return
@@ -419,10 +407,6 @@ public class Pet {
 
     public void setPosY(int posY) {
         this.posY = posY;
-    }
-
-    public BufferedImage getPet() {
-        return pet;
     }
 
     public boolean isWalkingRight() {

@@ -105,11 +105,6 @@ public class PetController {
         return pet.getPosY();
     }
 
-    @GetMapping("/getPetSprite")
-    public BufferedImage getPet(){
-        return pet.getPet();
-    }
-
     @GetMapping("/isWalkingRight")
     public boolean isWalkingRight(){
         return pet.isWalkingRight();
