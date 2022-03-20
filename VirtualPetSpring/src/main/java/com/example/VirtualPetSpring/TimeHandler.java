@@ -4,12 +4,13 @@ public class TimeHandler {
     private long last;
     private long accumulator;
     private long updateTime;
+    public static final int FPS = 30;
 
 
     public TimeHandler() {
         this.last = System.nanoTime();
         this.accumulator = 0L;
-        this.updateTime = 1000000000L;
+        this.updateTime = 1000000000L/TimeHandler.FPS;
 
     }
 

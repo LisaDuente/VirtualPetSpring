@@ -4,14 +4,20 @@ package com.example.VirtualPetSpring;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Random;
 @Component
 public class Pet {
+
+    public enum MoveState{
+        IDLE,
+        WALKING,
+        PLAYING,
+        SLEEPING,
+        CHEERING
+    }
 
     public enum PetState{
         HUNGRY,
@@ -30,12 +36,13 @@ public class Pet {
     private String name;
     private PetState state;
     private PetAge age;
+    private MoveState moveState;
 
     //might be a little boring for the kid and adult because it won't happen that much
     private int timeToUpdate;
-    final int BABYTIME = 6;//0;
-    final int KIDTIME = 12;
-    final int ADULTTIME = 18;
+    final int BABYTIME = 60*TimeHandler.FPS;//0;
+    final int KIDTIME = 120*TimeHandler.FPS;
+    final int ADULTTIME = 180*TimeHandler.FPS;
 
     private int timeToEvolve;
     //after 20 minutes
@@ -55,6 +62,8 @@ public class Pet {
     private int posX;
     private int posY;
     private boolean walkingRight;
+    final int SPRSIZEX = 48;
+    final int SPRSIZEY = 48;
     private BufferedImage pet;
     File petPath;
 
@@ -66,6 +75,7 @@ public class Pet {
         this.name = name;
         this.age = PetAge.BABY;
         this.state = PetState.HUNGRY;
+        this.moveState = MoveState.WALKING;
         //1 minutes until next update in living()
         this.timeToUpdate = BABYTIME;
         this.timeToEvolve = 0;
@@ -86,22 +96,29 @@ public class Pet {
         this.walkingRight = false;
     }
 
+//move methods
+
     public void move(){
         if(!this.walkingRight){
-            if(this.posX <= 400) {
-                this.posX += 5;
+            if(this.posX <= (400-SPRSIZEX)) {
+                this.posX += 1;
             }else{
                 this.walkingRight = true;
             }
         }else{
             if(this.posX >= 100){
-                this.posX -=5;
+                this.posX -=1;
             }else{
                 this.walkingRight = false;
             }
         }
     }
 
+    public int chooseWalkingSprite(){
+        return (this.timeToUpdate/15)%2;
+    }
+
+//caring methods
     //add food?
     public void feed(){
         if(this.hungryPoints > 0 && this.hungryPoints <= 10 ){
@@ -149,6 +166,7 @@ public class Pet {
         }
     }
 
+//living and evolving
     public void evolve(){
         switch(this.age){
             case BABY:
@@ -280,6 +298,8 @@ public class Pet {
         }
     }
 
+//Returns, setter and getter
+
     public String getAllPoints(){
         return
                 "sleep: "+this.sleepPoints
@@ -407,5 +427,9 @@ public class Pet {
 
     public boolean isWalkingRight() {
         return walkingRight;
+    }
+
+    public MoveState getMoveState() {
+        return moveState;
     }
 }
