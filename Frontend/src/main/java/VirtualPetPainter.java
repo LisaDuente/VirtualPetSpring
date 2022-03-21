@@ -14,8 +14,10 @@ public class VirtualPetPainter implements Painter {
     private final File[] WALK_RIGHT;
     private final File[] WALK_LEFT;
     private final File[] IDLE;
+    private final File[] DEAD;
     private int walkingSprite;
     private int idleSprite;
+    private int deadSprite;
 
     public VirtualPetPainter(){
         //unfortunately the wrong order
@@ -36,6 +38,12 @@ public class VirtualPetPainter implements Painter {
         this.IDLE[1] = new File("Frontend/src/main/resources/Idle/Idle2.png");
         this.IDLE[2] = new File("Frontend/src/main/resources/Idle/Idle3.png");
         this.IDLE[3] = new File("Frontend/src/main/resources/Idle/Idle2.png");
+
+        this.DEAD = new File[4];
+        this.DEAD[0] = new File("Frontend/src/main/resources/Dead/Dead1.png");
+        this.DEAD[1] = new File("Frontend/src/main/resources/Dead/Dead2.png");
+        this.DEAD[2] = new File("Frontend/src/main/resources/Dead/Dead3.png");
+        this.DEAD[3] = new File("Frontend/src/main/resources/Dead/Dead2.png");
     }
 
     @Override
@@ -47,6 +55,7 @@ public class VirtualPetPainter implements Painter {
         this.moveState = connect.sendGetRequest("getMoveState");
         this.walkingSprite = Integer.parseInt(connect.sendGetRequest("chooseWalkingSprite"));
         this.idleSprite = Integer.parseInt(connect.sendGetRequest("chooseIdleSprite"));
+        this.deadSprite = Integer.parseInt(connect.sendGetRequest("chooseDeadSprite"));
 
 
         switch(moveState){
@@ -70,7 +79,7 @@ public class VirtualPetPainter implements Painter {
                 break;
             case "\"IDLE\"":
                 try {
-                    BufferedImage pet = ImageIO.read(this.IDLE[this.walkingSprite]);
+                    BufferedImage pet = ImageIO.read(this.IDLE[this.idleSprite]);
                     g.drawImage(pet,petX,petY,null);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -81,6 +90,14 @@ public class VirtualPetPainter implements Painter {
             case"\"SLEEPING\"":
                 break;
             case"\"CHEERING\"":
+                break;
+            case "\"DEAD\"":
+                try {
+                    BufferedImage pet = ImageIO.read(this.DEAD[this.deadSprite]);
+                    g.drawImage(pet,petX,petY,null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 System.out.println("Error::VirtualPetPainter::Paint");
