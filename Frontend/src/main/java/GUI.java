@@ -17,7 +17,7 @@ public class GUI extends JFrame {
     private JPanel petPanel;
 
     private PaintPanel virtualPet;
-    private JTextField stats;
+    private JPanel statusPanel;
 
     private JPanel controlArea;
     private JButton feed;
@@ -25,6 +25,12 @@ public class GUI extends JFrame {
     private JButton clean;
     private JButton play;
     private JButton calm;
+
+    private JLabel hungry;
+    private JLabel sleepy;
+    private JLabel dirty;
+    private JLabel bored;
+    private JLabel angry;
 
 
 //________________________
@@ -64,16 +70,25 @@ public class GUI extends JFrame {
         this.add(this.menu);
 
     //define petPanel
+        //panels
         this.petPanel = new JPanel();
         this.virtualPet = new PaintPanel();
-        this.stats = new JTextField();
+        this.statusPanel = new JPanel(new FlowLayout());
         this.controlArea = new JPanel();
+        //buttons
         this.feed = new JButton("Feed");
         this.sleep = new JButton("Sleep");
         this.calm = new JButton("Calm");
         this.clean = new JButton("Clean");
         this.play = new JButton("Play");
+        //labels
+        this.hungry = new JLabel();
+        this.sleepy = new JLabel();
+        this.angry = new JLabel();
+        this.dirty = new JLabel();
+        this.bored = new JLabel();
 
+        //action listener
         this.feed.addActionListener(e -> this.connector.sendGetRequest("feed"));
         this.calm.addActionListener(e -> this.connector.sendGetRequest("calm"));
         this.play.addActionListener(e -> this.connector.sendGetRequest("play"));
@@ -86,19 +101,21 @@ public class GUI extends JFrame {
                 ex.printStackTrace();
             }
         });
-
+        //bounds
         this.petPanel.setBounds(0,0,500,500);
         this.petPanel.setLayout(null);
         this.virtualPet.setBounds(0,60,500,300);
         this.controlArea.setBounds(0,400,500,50);
-        this.stats.setBounds(0,0,500,50);
-        this.stats.setText(this.connector.sendGetRequest("getAllPoints"));
-
+        this.statusPanel.setBounds(0,0,500,55);
 
         //needs maybe to be synchronized to allow other things on the connection
         this.updateStats = new Thread(() -> {
             while(true){
-                this.stats.setText(this.connector.sendGetRequest("getAllPoints"));
+                this.hungry.setText("hunger: "+this.connector.sendGetRequest("getHungry"));
+                this.sleepy.setText("tired: "+this.connector.sendGetRequest("getSleep"));
+                this.angry.setText("anger: "+this.connector.sendGetRequest("getAngry"));
+                this.dirty.setText("dirty: "+this.connector.sendGetRequest("getDirty"));
+                this.bored.setText("bored: "+this.connector.sendGetRequest("getBored"));
                try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -108,8 +125,7 @@ public class GUI extends JFrame {
         });
         this.updateStats.start();
 
-
-
+        //add everything
         this.controlArea.setLayout(new FlowLayout());
         this.controlArea.add(this.feed);
         this.controlArea.add(this.sleep);
@@ -118,11 +134,17 @@ public class GUI extends JFrame {
         this.controlArea.add(this.play);
         this.controlArea.setVisible(false);
 
+        this.statusPanel.add(this.hungry);
+        this.statusPanel.add(this.sleepy);
+        this.statusPanel.add(this.angry);
+        this.statusPanel.add(this.dirty);
+        this.statusPanel.add(this.bored);
+
         this.virtualPet.setLayout(null);
         this.virtualPet.setVisible(false);
 
         this.petPanel.add(this.virtualPet);
-        this.petPanel.add(this.stats);
+        this.petPanel.add(this.statusPanel);
         this.petPanel.add(this.controlArea);
         this.petPanel.setVisible(false);
 

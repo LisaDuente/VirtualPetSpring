@@ -13,9 +13,9 @@ public class VirtualPetPainter implements Painter {
     private String moveState;
     private final File[] WALK_RIGHT;
     private final File[] WALK_LEFT;
+    private final File[] IDLE;
     private int walkingSprite;
-    private final int FLIP_VERTICAL = 1;
-    private final int FLIP_HORIZONTAL = -1;
+    private int idleSprite;
 
     public VirtualPetPainter(){
         //unfortunately the wrong order
@@ -30,6 +30,12 @@ public class VirtualPetPainter implements Painter {
         this.WALK_LEFT[1] = new File("Frontend/src/main/resources/WalkingLeft/WL3.png");
         this.WALK_LEFT[2] = new File("Frontend/src/main/resources/WalkingLeft/WL2.png");
         this.WALK_LEFT[3] = new File("Frontend/src/main/resources/WalkingLeft/WL1.png");
+
+        this.IDLE = new File[4];
+        this.IDLE[0] = new File("Frontend/src/main/resources/Idle/Idle1.png");
+        this.IDLE[1] = new File("Frontend/src/main/resources/Idle/Idle2.png");
+        this.IDLE[2] = new File("Frontend/src/main/resources/Idle/Idle3.png");
+        this.IDLE[3] = new File("Frontend/src/main/resources/Idle/Idle2.png");
     }
 
     @Override
@@ -40,6 +46,7 @@ public class VirtualPetPainter implements Painter {
         this.walkingRight = Boolean.parseBoolean(connect.sendGetRequest("isWalkingRight"));
         this.moveState = connect.sendGetRequest("getMoveState");
         this.walkingSprite = Integer.parseInt(connect.sendGetRequest("chooseWalkingSprite"));
+        this.idleSprite = Integer.parseInt(connect.sendGetRequest("chooseIdleSprite"));
 
 
         switch(moveState){
@@ -62,6 +69,12 @@ public class VirtualPetPainter implements Painter {
                 }
                 break;
             case "\"IDLE\"":
+                try {
+                    BufferedImage pet = ImageIO.read(this.IDLE[this.walkingSprite]);
+                    g.drawImage(pet,petX,petY,null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "\"PLAYING\"":
                 break;

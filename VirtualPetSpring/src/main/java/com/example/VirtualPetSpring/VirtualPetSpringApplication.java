@@ -19,7 +19,6 @@ public class VirtualPetSpringApplication {
 		handler.update(pet);
 		pet.setAngryPoints(5);
 
-
 	}
 
 	@Bean

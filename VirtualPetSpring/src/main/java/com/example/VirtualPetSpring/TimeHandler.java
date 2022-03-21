@@ -12,9 +12,11 @@ public class TimeHandler {
         this.accumulator = 0L;
         this.updateTime = 1000000000L/TimeHandler.FPS;
 
+
     }
 
     public void update(Pet pet) {
+        pet.randomMovement();
         while (true) {
             long now = System.nanoTime();
             long elapsed = now - this.last;
@@ -25,9 +27,10 @@ public class TimeHandler {
                 this.accumulator -= this.updateTime;
                 pet.live();
                 pet.move();
-                System.out.println("tik");
+                //System.out.println("tik");
             }
         }
     }
+
 }
 

@@ -108,7 +108,7 @@ class PetTest {
     @Test
     void updatePointsHungry(){
         //input
-        pet.setState(Pet.PetState.HUNGRY);
+        pet.setState(Pet.PointState.HUNGRY);
         pet.setHungryPoints(0);
 
         //when
@@ -121,7 +121,7 @@ class PetTest {
     @Test
     void updatePointsHungry2(){
         //input
-        pet.setState(Pet.PetState.HUNGRY);
+        pet.setState(Pet.PointState.HUNGRY);
         pet.setHungryPoints(10);
 
         //when
@@ -135,7 +135,7 @@ class PetTest {
     @Test
     void updatePointsHungryDeath(){
         //input
-        pet.setState(Pet.PetState.HUNGRY);
+        pet.setState(Pet.PointState.HUNGRY);
         pet.setHungryPoints(2);
         pet.setDeathCount(10);
 
@@ -150,7 +150,7 @@ class PetTest {
     @Test
     void updatePointsAngry(){
         //input
-        pet.setState(Pet.PetState.ANGRY);
+        pet.setState(Pet.PointState.ANGRY);
         pet.setAngryPoints(0);
 
         //when
@@ -163,7 +163,7 @@ class PetTest {
     @Test
     void updatePointsSleepy(){
         //input
-        pet.setState(Pet.PetState.SLEEPY);
+        pet.setState(Pet.PointState.SLEEPY);
         pet.setSleepPoints(0);
 
         //when
@@ -176,7 +176,7 @@ class PetTest {
     @Test
     void updatePointsBored(){
         //input
-        pet.setState(Pet.PetState.BORED);
+        pet.setState(Pet.PointState.BORED);
         pet.setBoredPoints(0);
 
         //when
@@ -189,7 +189,7 @@ class PetTest {
     @Test
     void updatePointsBored2(){
         //input
-        pet.setState(Pet.PetState.BORED);
+        pet.setState(Pet.PointState.BORED);
         pet.setBoredPoints(11);
 
         //when

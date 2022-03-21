@@ -16,7 +16,7 @@ public class Pet {
         CHEERING
     }
 
-    public enum PetState{
+    public enum PointState {
         HUNGRY,
         SLEEPY,
         DIRTY,
@@ -32,7 +32,7 @@ public class Pet {
     }
 //BASICS
     private String name;
-    private PetState state;
+    private PointState state;
     private PetAge age;
     private MoveState moveState;
 
@@ -67,6 +67,12 @@ public class Pet {
 //ANIMATION SPEEDS / FRAMES
     private final int WALK_SPEED = 5;
     private final int WALK_FRAMES = 4;
+    private final int IDLE_SPEED = 5;
+    private final int IDLE_FRAMES = 4;
+
+//STATE LISTS
+    private final MoveState[] MOVE_STATES = {MoveState.WALKING,MoveState.IDLE};
+
 
     public Pet (){
 
@@ -76,7 +82,7 @@ public class Pet {
         //BASICS
         this.name = name;
         this.age = PetAge.BABY;
-        this.state = PetState.HUNGRY;
+        this.state = PointState.HUNGRY;
         this.moveState = MoveState.WALKING;
         //TIMES
         this.timeToUpdate = BABYTIME;
@@ -97,25 +103,50 @@ public class Pet {
 //MOVE METHODS
 
     public void move(){
-        if(!this.walkingRight){
-            if(this.posX <= (400- SPR_SIZE_X)) {
-                this.posX += 1;
-            }else{
-                this.walkingRight = true;
-            }
-        }else{
-            if(this.posX >= 100){
-                this.posX -=1;
-            }else{
-                this.walkingRight = false;
-            }
+        switch(this.moveState){
+            case WALKING:
+                if(!this.walkingRight){
+                    if(this.posX <= (400- SPR_SIZE_X)) {
+                        this.posX += 1;
+                    }else{
+                        this.walkingRight = true;
+                    }
+                }else{
+                    if(this.posX >= 100){
+                        this.posX -=1;
+                    }else{
+                        this.walkingRight = false;
+                    }
+                }
+                break;
+            case IDLE:
+                break;
+
         }
+
     }
 
 //ANIMATION METHODS
 
     public int chooseWalkingSprite(){
         return (this.timeToUpdate/WALK_SPEED)% WALK_FRAMES;
+    }
+    public int chooseIdleSprite(){
+        return (this.timeToUpdate/IDLE_SPEED)% IDLE_FRAMES;
+    }
+    public void randomMovement() {
+        new Thread(() -> {
+            while(true){
+                Random random = new Random();
+                this.moveState = this.MOVE_STATES[random.nextInt(this.MOVE_STATES.length)];
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 //CARING METHODS
@@ -230,7 +261,7 @@ public class Pet {
 
     public void chooseRandomState(){
         Random random = new Random();
-        PetState[] states = {PetState.BORED,PetState.SLEEPY,PetState.ANGRY,PetState.DIRTY,PetState.HUNGRY};
+        PointState[] states = {PointState.BORED, PointState.SLEEPY, PointState.ANGRY, PointState.DIRTY, PointState.HUNGRY};
         this.state = states[random.nextInt(states.length)];
     }
 
@@ -329,11 +360,11 @@ public class Pet {
         this.age = age;
     }
 
-    public PetState getState() {
+    public PointState getState() {
         return state;
     }
 
-    public void setState(PetState state) {
+    public void setState(PointState state) {
         this.state = state;
     }
 
