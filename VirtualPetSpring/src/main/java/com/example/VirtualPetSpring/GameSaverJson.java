@@ -1,6 +1,5 @@
 package com.example.VirtualPetSpring;
 
-
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;

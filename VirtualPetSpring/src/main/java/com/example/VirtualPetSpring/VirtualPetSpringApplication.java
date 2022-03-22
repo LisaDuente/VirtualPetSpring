@@ -19,7 +19,6 @@ public class VirtualPetSpringApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(VirtualPetSpringApplication.class, args);
-		handler = context.getBean(TimeHandler.class);
 		//handler.setRunning(true);
 		//handler.update(pet);
 		//pet.setAngryPoints(5);

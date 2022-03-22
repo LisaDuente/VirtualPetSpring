@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ConnectionManager {
-    private HttpURLConnection connection;
+    //private HttpURLConnection connection;
 
     public String sendGetRequest(String request){
         String line = "";
@@ -15,11 +15,11 @@ public class ConnectionManager {
 
         try{
             URL url = new URL("http://localhost:8080/"+request);
-            this.connection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            this.connection.setRequestMethod("GET");
-            this.connection.setConnectTimeout(5000);
-            this.connection.setReadTimeout(3000);
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(3000);
 
             int status = connection.getResponseCode();
 
