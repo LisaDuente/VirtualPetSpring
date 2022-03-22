@@ -14,10 +14,16 @@ Trying to write a RESTful application with help of Spring Web.
 - [ ] integrate a system to paint sprites coressponding to the feeling of the virtual pet
 - [ ] interaction between points and caring methods (if feed when bored, bored--)
 - [ ] if sleep -> state sleep, live() waits 5 minutes
-- [ ] randomize sprite stes when growing
+- [ ] randomize sprite states when growing
+- [ ] checkConsequences() (if deathcounter > 10 then PetAge.DEAD and others)
+- [ ] how to pause for a cheering or a playing animation?
+- [ ] add a function to save the pet (GameSaverController)
+- [ ] add a function to pause the loop for minigames
 
 ### view changes
 - [ ] change petAge -> update sprites
+- [ ] add a view controller?
+- [ ] add a "back" button to go back to the startpage
 
 
 
