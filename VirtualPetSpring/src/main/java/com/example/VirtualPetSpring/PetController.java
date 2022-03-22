@@ -126,7 +126,7 @@ public class PetController {
     }
 
     @GetMapping("/chooseDeadSprite")
-    public int getDeadSprite(){
+    public int getBackSprite(){
         return pet.chooseDeadSprite();
     }
 }

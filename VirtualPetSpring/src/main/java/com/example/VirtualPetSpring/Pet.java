@@ -142,6 +142,7 @@ public class Pet {
     }
     public void randomMovement() {
         new Thread(() -> {
+
             while(true){
                 if(this.age != PetAge.DEAD){
                     Random random = new Random();
@@ -162,46 +163,56 @@ public class Pet {
 
 //CARING METHODS
     //add food?
-    public void feed(){
-        if(this.hungryPoints > 0 && this.hungryPoints <= 10 ){
-            this.hungryPoints = this.hungryPoints - 2;
-            //can't be less than 0
-            if(this.hungryPoints < 0){
-                this.hungryPoints = 0;
+    public void feed() {
+        if (this.age != PetAge.DEAD) {
+            if (this.hungryPoints > 0 && this.hungryPoints <= 10) {
+                this.hungryPoints = this.hungryPoints - 2;
+                //can't be less than 0
+                if (this.hungryPoints < 0) {
+                    this.hungryPoints = 0;
+                }
             }
         }
     }
 
     public void clean(){
-        if(this.dirtyPoints > 0 && this.dirtyPoints <= 10 ){
-            this.dirtyPoints--;
-            //can't be less than 0
-            if(this.dirtyPoints < 0){
-                this.dirtyPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if(this.dirtyPoints > 0 && this.dirtyPoints <= 10 ){
+                this.dirtyPoints--;
+                //can't be less than 0
+                if(this.dirtyPoints < 0){
+                    this.dirtyPoints = 0;
+                }
             }
         }
     }
 
     //add a toy?
     public void play(){
-        if(this.boredPoints > 0 && this.boredPoints <= 10 ){
-            this.boredPoints= this.boredPoints - 2;
-            //can't be less than 0
-            if(this.boredPoints < 0){
-                this.boredPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.boredPoints > 0 && this.boredPoints <= 10) {
+                this.boredPoints = this.boredPoints - 2;
+                //can't be less than 0
+                if (this.boredPoints < 0) {
+                    this.boredPoints = 0;
+                }
             }
         }
     }
 
     public void sleep(){
-        if(this.sleepPoints > 0 && this.sleepPoints<=10){
-            this.sleepPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.sleepPoints > 0 && this.sleepPoints <= 10) {
+                this.sleepPoints = 0;
+            }
         }
     }
 
     public void calm(){
-        if(this.angryPoints > 0){
-            this.angryPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.angryPoints > 0) {
+                this.angryPoints = 0;
+            }
         }
     }
 
@@ -276,17 +287,20 @@ public class Pet {
         this.state = states[random.nextInt(states.length)];
     }
 
+    //add some method called consequences() for each thing that happens here
     //updates the points on corresponding point counters
     public void updatePoints(){
         if(this.age != PetAge.DEAD){
             switch (this.state) {
                 case HUNGRY:
                     this.hungryPoints++;
-                    if (this.hungryPoints >= 10) {
+                    if (this.hungryPoints > 10) {
                         this.hungryPoints = 10;
                         this.deathCount++;
-                        if(this.deathCount >= 10) {
+                        System.out.println(deathCount);
+                        if(this.deathCount>=5){
                             this.age = PetAge.DEAD;
+                            this.moveState = MoveState.DEAD;
                         }
                     }
                     break;

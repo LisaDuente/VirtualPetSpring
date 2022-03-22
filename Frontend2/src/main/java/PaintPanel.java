@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,7 @@ public class PaintPanel extends JPanel {
 
     public PaintPanel(){
         this.petPainter = new VirtualPetPainter();
-        this.backgroundPainter = new BackgroundPainter("Frontend/src/main/resources/Background/Test.png",0,0);
+        this.backgroundPainter = new BackgroundPainter("src/main/resources/Background/Test.png",0,0);
     }
 
     @Override

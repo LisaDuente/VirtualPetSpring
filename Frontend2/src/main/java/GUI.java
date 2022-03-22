@@ -13,7 +13,7 @@ public class GUI extends JFrame {
     private JLabel info;
     private JTextField insertUserName;
     private JButton enterUserName;
-//________________________
+    //________________________
     private JPanel petPanel;
 
     private PaintPanel virtualPet;
@@ -25,6 +25,7 @@ public class GUI extends JFrame {
     private JButton clean;
     private JButton play;
     private JButton calm;
+    private JButton back;
 
     private JLabel hungry;
     private JLabel sleepy;
@@ -37,7 +38,7 @@ public class GUI extends JFrame {
 
     public GUI(){
         this.connector = new ConnectionManager();
-    //define menu
+        //define menu
         this.menu = new JPanel();
         this.welcomeText = new JLabel("Welcome to Lisa's Virtual Pet!");
         this.info = new JLabel("Please insert your username!");
@@ -54,6 +55,8 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //load the given user
                 //update the label to an error maybe
+                //connector.sendGetRequest("load");
+                connector.sendGetRequest("start");
                 toPetPanel();
             }
         });
@@ -69,7 +72,7 @@ public class GUI extends JFrame {
 
         this.add(this.menu);
 
-    //define petPanel
+        //define petPanel
         //panels
         this.petPanel = new JPanel();
         this.virtualPet = new PaintPanel();
@@ -81,6 +84,7 @@ public class GUI extends JFrame {
         this.calm = new JButton("Calm");
         this.clean = new JButton("Clean");
         this.play = new JButton("Play");
+        this.back = new JButton("Back");
         //labels
         this.hungry = new JLabel();
         this.sleepy = new JLabel();
@@ -89,6 +93,11 @@ public class GUI extends JFrame {
         this.bored = new JLabel();
 
         //action listener
+        this.back.addActionListener((e) -> {
+            this.connector.sendGetRequest("save");
+            this.connector.sendGetRequest("stopp");
+            toMenuPanel();
+        });
         this.feed.addActionListener(e -> this.connector.sendGetRequest("feed"));
         this.calm.addActionListener(e -> this.connector.sendGetRequest("calm"));
         this.play.addActionListener(e -> this.connector.sendGetRequest("play"));
@@ -116,7 +125,7 @@ public class GUI extends JFrame {
                 this.angry.setText("anger: "+this.connector.sendGetRequest("getAngry"));
                 this.dirty.setText("dirty: "+this.connector.sendGetRequest("getDirty"));
                 this.bored.setText("bored: "+this.connector.sendGetRequest("getBored"));
-               try {
+                try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -132,6 +141,7 @@ public class GUI extends JFrame {
         this.controlArea.add(this.calm);
         this.controlArea.add(this.clean);
         this.controlArea.add(this.play);
+        this.controlArea.add(this.back);
         this.controlArea.setVisible(false);
 
         this.statusPanel.add(this.hungry);
@@ -151,7 +161,7 @@ public class GUI extends JFrame {
         this.add(petPanel);
 
 
-    //define frame
+        //define frame
         this.setSize(500,500);
         this.setLayout(null);
         this.setVisible(true);
@@ -163,5 +173,10 @@ public class GUI extends JFrame {
         this.petPanel.setVisible(true);
         this.virtualPet.setVisible(true);
         this.controlArea.setVisible(true);
+    }
+
+    public void toMenuPanel(){
+        this.petPanel.setVisible(false);
+        this.menu.setVisible(true);
     }
 }

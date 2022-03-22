@@ -6,15 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PetTest {
     Pet pet = new Pet("Lara");
-    Food apple = new Food("Apple", 2,1.00f);
-/*
+
     @org.junit.jupiter.api.Test
     void feed() {
         //input
         pet.setHungryPoints(10);
 
         //when
-        pet.feed(apple);
+        pet.feed();
 
         //result
         assertEquals(8,pet.getHungryPoints());
@@ -25,7 +24,7 @@ class PetTest {
         pet.setHungryPoints(1);
 
         //when
-        pet.feed(apple);
+        pet.feed();
 
         //result
         assertEquals(0, pet.getHungryPoints());
@@ -37,13 +36,13 @@ class PetTest {
         pet.setHungryPoints(0);
 
         //when
-        pet.feed(apple);
+        pet.feed();
 
         //result
         assertEquals(0, pet.getHungryPoints());
     }
 
- */
+
 
     @org.junit.jupiter.api.Test
     void calm() {
@@ -136,7 +135,7 @@ class PetTest {
     void updatePointsHungryDeath(){
         //input
         pet.setState(Pet.PointState.HUNGRY);
-        pet.setHungryPoints(2);
+        pet.setHungryPoints(10);
         pet.setDeathCount(10);
 
         //when
@@ -144,7 +143,7 @@ class PetTest {
 
         //result
         assertEquals(Pet.PetAge.DEAD,pet.getAge());
-        assertEquals(2, pet.getHungryPoints());
+        assertEquals(10, pet.getHungryPoints());
     }
 
     @Test

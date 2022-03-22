@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(scanBasePackages = {"com.example.VirtualPetSpring.Pet", "com.example.VirtualPetSpring.PetController"})
 public class VirtualPetSpringApplication {
 	PetController petControl;
+	GameSaverJson saverJson;
+	GameSaverController saveControl;
+	TimeHandlerController timeControl;
 	static Pet pet;
 	static TimeHandler handler;
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(VirtualPetSpringApplication.class, args);
-		handler.update(pet);
-		pet.setAngryPoints(5);
+		handler = context.getBean(TimeHandler.class);
+		//handler.setRunning(true);
+		//handler.update(pet);
+		//pet.setAngryPoints(5);
 
 	}
 
@@ -34,6 +39,21 @@ public class VirtualPetSpringApplication {
 	@Bean
 	public PetController petController(){
 		return petControl = new PetController(pet);
+	}
+
+	@Bean
+	public GameSaverJson gameSaverJson(){
+		return this.saverJson = new GameSaverJson();
+	}
+
+	@Bean
+	public GameSaverController gameSaverController(){
+		return this.saveControl = new GameSaverController(this.saverJson,pet);
+	}
+
+	@Bean
+	public TimeHandlerController timeHandlerController(){
+		return this.timeControl = new TimeHandlerController();
 	}
 
 }
