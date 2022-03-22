@@ -25,6 +25,7 @@ public class GUI extends JFrame {
     private JButton clean;
     private JButton play;
     private JButton calm;
+    private JButton back;
 
     private JLabel hungry;
     private JLabel sleepy;
@@ -54,6 +55,8 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //load the given user
                 //update the label to an error maybe
+                //connector.sendGetRequest("load");
+                connector.sendGetRequest("start");
                 toPetPanel();
             }
         });
@@ -81,6 +84,7 @@ public class GUI extends JFrame {
         this.calm = new JButton("Calm");
         this.clean = new JButton("Clean");
         this.play = new JButton("Play");
+        this.back = new JButton("Back");
         //labels
         this.hungry = new JLabel();
         this.sleepy = new JLabel();
@@ -89,6 +93,11 @@ public class GUI extends JFrame {
         this.bored = new JLabel();
 
         //action listener
+        this.back.addActionListener((e) -> {
+            this.connector.sendGetRequest("save");
+            this.connector.sendGetRequest("stopp");
+            toMenuPanel();
+        });
         this.feed.addActionListener(e -> this.connector.sendGetRequest("feed"));
         this.calm.addActionListener(e -> this.connector.sendGetRequest("calm"));
         this.play.addActionListener(e -> this.connector.sendGetRequest("play"));
@@ -132,6 +141,7 @@ public class GUI extends JFrame {
         this.controlArea.add(this.calm);
         this.controlArea.add(this.clean);
         this.controlArea.add(this.play);
+        this.controlArea.add(this.back);
         this.controlArea.setVisible(false);
 
         this.statusPanel.add(this.hungry);
@@ -163,5 +173,10 @@ public class GUI extends JFrame {
         this.petPanel.setVisible(true);
         this.virtualPet.setVisible(true);
         this.controlArea.setVisible(true);
+    }
+
+    public void toMenuPanel(){
+        this.petPanel.setVisible(false);
+        this.menu.setVisible(true);
     }
 }
