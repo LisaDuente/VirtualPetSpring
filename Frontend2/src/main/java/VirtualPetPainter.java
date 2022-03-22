@@ -22,28 +22,28 @@ public class VirtualPetPainter implements Painter {
     public VirtualPetPainter(){
         //unfortunately the wrong order
         this.WALK_RIGHT = new File[4];
-        this.WALK_RIGHT[3] = new File("Frontend/src/main/resources/WalkingRight/WR1.png");
-        this.WALK_RIGHT[2] = new File("Frontend/src/main/resources/WalkingRight/WR2.png");
-        this.WALK_RIGHT[1] = new File("Frontend/src/main/resources/WalkingRight/WR3.png");
-        this.WALK_RIGHT[0] = new File("Frontend/src/main/resources/WalkingRight/WR4.png");
+        this.WALK_RIGHT[3] = new File("src/main/resources/WalkingRight/WR1.png");
+        this.WALK_RIGHT[2] = new File("src/main/resources/WalkingRight/WR2.png");
+        this.WALK_RIGHT[1] = new File("src/main/resources/WalkingRight/WR3.png");
+        this.WALK_RIGHT[0] = new File("src/main/resources/WalkingRight/WR4.png");
 
         this.WALK_LEFT = new File[4];
-        this.WALK_LEFT[0] = new File("Frontend/src/main/resources/WalkingLeft/WL4.png");
-        this.WALK_LEFT[1] = new File("Frontend/src/main/resources/WalkingLeft/WL3.png");
-        this.WALK_LEFT[2] = new File("Frontend/src/main/resources/WalkingLeft/WL2.png");
-        this.WALK_LEFT[3] = new File("Frontend/src/main/resources/WalkingLeft/WL1.png");
+        this.WALK_LEFT[0] = new File("src/main/resources/WalkingLeft/WL4.png");
+        this.WALK_LEFT[1] = new File("src/main/resources/WalkingLeft/WL3.png");
+        this.WALK_LEFT[2] = new File("src/main/resources/WalkingLeft/WL2.png");
+        this.WALK_LEFT[3] = new File("src/main/resources/WalkingLeft/WL1.png");
 
         this.IDLE = new File[4];
-        this.IDLE[0] = new File("Frontend/src/main/resources/Idle/Idle1.png");
-        this.IDLE[1] = new File("Frontend/src/main/resources/Idle/Idle2.png");
-        this.IDLE[2] = new File("Frontend/src/main/resources/Idle/Idle3.png");
-        this.IDLE[3] = new File("Frontend/src/main/resources/Idle/Idle2.png");
+        this.IDLE[0] = new File("src/main/resources/Idle/Idle1.png");
+        this.IDLE[1] = new File("src/main/resources/Idle/Idle2.png");
+        this.IDLE[2] = new File("src/main/resources/Idle/Idle3.png");
+        this.IDLE[3] = new File("src/main/resources/Idle/Idle2.png");
 
         this.DEAD = new File[4];
-        this.DEAD[0] = new File("Frontend/src/main/resources/Dead/Dead1.png");
-        this.DEAD[1] = new File("Frontend/src/main/resources/Dead/Dead2.png");
-        this.DEAD[2] = new File("Frontend/src/main/resources/Dead/Dead3.png");
-        this.DEAD[3] = new File("Frontend/src/main/resources/Dead/Dead2.png");
+        this.DEAD[0] = new File("src/main/resources/Dead/Dead1.png");
+        this.DEAD[1] = new File("src/main/resources/Dead/Dead2.png");
+        this.DEAD[2] = new File("src/main/resources/Dead/Dead3.png");
+        this.DEAD[3] = new File("src/main/resources/Dead/Dead2.png");
     }
 
     @Override
@@ -109,3 +109,4 @@ public class VirtualPetPainter implements Painter {
 
     }
 }
+

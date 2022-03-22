@@ -124,4 +124,9 @@ public class PetController {
     public int getIdleSprite(){
         return pet.chooseIdleSprite();
     }
+
+    @GetMapping("/chooseDeadSprite")
+    public int getBackSprite(){
+        return pet.chooseDeadSprite();
+    }
 }

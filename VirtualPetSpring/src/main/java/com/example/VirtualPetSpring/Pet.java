@@ -13,7 +13,8 @@ public class Pet {
         WALKING,
         PLAYING,
         SLEEPING,
-        CHEERING
+        CHEERING,
+        DEAD
     }
 
     public enum PointState {
@@ -69,6 +70,8 @@ public class Pet {
     private final int WALK_FRAMES = 4;
     private final int IDLE_SPEED = 5;
     private final int IDLE_FRAMES = 4;
+    private final int DEAD_SPEED = 5;
+    private final int DEAD_FRAMES = 4;
 
 //STATE LISTS
     private final MoveState[] MOVE_STATES = {MoveState.WALKING,MoveState.IDLE};
@@ -134,9 +137,12 @@ public class Pet {
     public int chooseIdleSprite(){
         return (this.timeToUpdate/IDLE_SPEED)% IDLE_FRAMES;
     }
+    public int chooseDeadSprite(){
+        return (this.timeToUpdate/DEAD_SPEED)% DEAD_FRAMES;
+    }
     public void randomMovement() {
         new Thread(() -> {
-            while(true){
+            while(this.moveState != MoveState.DEAD){
                 Random random = new Random();
                 this.moveState = this.MOVE_STATES[random.nextInt(this.MOVE_STATES.length)];
                 try {
@@ -151,46 +157,56 @@ public class Pet {
 
 //CARING METHODS
     //add food?
-    public void feed(){
-        if(this.hungryPoints > 0 && this.hungryPoints <= 10 ){
-            this.hungryPoints = this.hungryPoints - 2;
-            //can't be less than 0
-            if(this.hungryPoints < 0){
-                this.hungryPoints = 0;
+    public void feed() {
+        if (this.age != PetAge.DEAD) {
+            if (this.hungryPoints > 0 && this.hungryPoints <= 10) {
+                this.hungryPoints = this.hungryPoints - 2;
+                //can't be less than 0
+                if (this.hungryPoints < 0) {
+                    this.hungryPoints = 0;
+                }
             }
         }
     }
 
     public void clean(){
-        if(this.dirtyPoints > 0 && this.dirtyPoints <= 10 ){
-            this.dirtyPoints--;
-            //can't be less than 0
-            if(this.dirtyPoints < 0){
-                this.dirtyPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if(this.dirtyPoints > 0 && this.dirtyPoints <= 10 ){
+                this.dirtyPoints--;
+                //can't be less than 0
+                if(this.dirtyPoints < 0){
+                    this.dirtyPoints = 0;
+                }
             }
         }
     }
 
     //add a toy?
     public void play(){
-        if(this.boredPoints > 0 && this.boredPoints <= 10 ){
-            this.boredPoints= this.boredPoints - 2;
-            //can't be less than 0
-            if(this.boredPoints < 0){
-                this.boredPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.boredPoints > 0 && this.boredPoints <= 10) {
+                this.boredPoints = this.boredPoints - 2;
+                //can't be less than 0
+                if (this.boredPoints < 0) {
+                    this.boredPoints = 0;
+                }
             }
         }
     }
 
     public void sleep(){
-        if(this.sleepPoints > 0 && this.sleepPoints<=10){
-            this.sleepPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.sleepPoints > 0 && this.sleepPoints <= 10) {
+                this.sleepPoints = 0;
+            }
         }
     }
 
     public void calm(){
-        if(this.angryPoints > 0){
-            this.angryPoints = 0;
+        if (this.age != PetAge.DEAD) {
+            if (this.angryPoints > 0) {
+                this.angryPoints = 0;
+            }
         }
     }
 
@@ -265,19 +281,21 @@ public class Pet {
         this.state = states[random.nextInt(states.length)];
     }
 
+    //add some method called consequences() for each thing that happens here
     //updates the points on corresponding point counters
     public void updatePoints(){
-        if(this.deathCount >= 10){
-            this.age = PetAge.DEAD;
-        }else {
+        if(this.age != PetAge.DEAD){
             switch (this.state) {
                 case HUNGRY:
-                    if (this.hungryPoints < 10) {
-                        this.hungryPoints++;
-                    }else if (this.hungryPoints > 10) {
+                    this.hungryPoints++;
+                    if (this.hungryPoints > 10) {
                         this.hungryPoints = 10;
-                    }else if (this.hungryPoints == 10){
-                        deathCount++;
+                        this.deathCount++;
+                        System.out.println(deathCount);
+                        if(this.deathCount>=5){
+                            this.age = PetAge.DEAD;
+                            this.moveState = MoveState.DEAD;
+                        }
                     }
                     break;
                 case DIRTY:

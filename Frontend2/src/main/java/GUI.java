@@ -13,7 +13,7 @@ public class GUI extends JFrame {
     private JLabel info;
     private JTextField insertUserName;
     private JButton enterUserName;
-//________________________
+    //________________________
     private JPanel petPanel;
 
     private PaintPanel virtualPet;
@@ -37,7 +37,7 @@ public class GUI extends JFrame {
 
     public GUI(){
         this.connector = new ConnectionManager();
-    //define menu
+        //define menu
         this.menu = new JPanel();
         this.welcomeText = new JLabel("Welcome to Lisa's Virtual Pet!");
         this.info = new JLabel("Please insert your username!");
@@ -69,7 +69,7 @@ public class GUI extends JFrame {
 
         this.add(this.menu);
 
-    //define petPanel
+        //define petPanel
         //panels
         this.petPanel = new JPanel();
         this.virtualPet = new PaintPanel();
@@ -116,7 +116,7 @@ public class GUI extends JFrame {
                 this.angry.setText("anger: "+this.connector.sendGetRequest("getAngry"));
                 this.dirty.setText("dirty: "+this.connector.sendGetRequest("getDirty"));
                 this.bored.setText("bored: "+this.connector.sendGetRequest("getBored"));
-               try {
+                try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -151,7 +151,7 @@ public class GUI extends JFrame {
         this.add(petPanel);
 
 
-    //define frame
+        //define frame
         this.setSize(500,500);
         this.setLayout(null);
         this.setVisible(true);
