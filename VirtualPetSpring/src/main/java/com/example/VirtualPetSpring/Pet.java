@@ -13,7 +13,8 @@ public class Pet {
         WALKING,
         PLAYING,
         SLEEPING,
-        CHEERING
+        CHEERING,
+        DEAD
     }
 
     public enum PointState {
@@ -69,6 +70,8 @@ public class Pet {
     private final int WALK_FRAMES = 4;
     private final int IDLE_SPEED = 5;
     private final int IDLE_FRAMES = 4;
+    private final int DEAD_SPEED = 6;
+    private final int DEAD_FRAMES = 4;
 
 //STATE LISTS
     private final MoveState[] MOVE_STATES = {MoveState.WALKING,MoveState.IDLE};
@@ -134,15 +137,23 @@ public class Pet {
     public int chooseIdleSprite(){
         return (this.timeToUpdate/IDLE_SPEED)% IDLE_FRAMES;
     }
+    public int chooseDeadSprite(){
+        return (this.timeToUpdate/DEAD_SPEED)% DEAD_FRAMES;
+    }
     public void randomMovement() {
         new Thread(() -> {
             while(true){
-                Random random = new Random();
-                this.moveState = this.MOVE_STATES[random.nextInt(this.MOVE_STATES.length)];
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if(this.age != PetAge.DEAD){
+                    Random random = new Random();
+                    this.moveState = this.MOVE_STATES[random.nextInt(this.MOVE_STATES.length)];
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    this.moveState = MoveState.DEAD;
+                    break;
                 }
             }
         }).start();
@@ -267,17 +278,16 @@ public class Pet {
 
     //updates the points on corresponding point counters
     public void updatePoints(){
-        if(this.deathCount >= 10){
-            this.age = PetAge.DEAD;
-        }else {
+        if(this.age != PetAge.DEAD){
             switch (this.state) {
                 case HUNGRY:
-                    if (this.hungryPoints < 10) {
-                        this.hungryPoints++;
-                    }else if (this.hungryPoints > 10) {
+                    this.hungryPoints++;
+                    if (this.hungryPoints >= 10) {
                         this.hungryPoints = 10;
-                    }else if (this.hungryPoints == 10){
-                        deathCount++;
+                        this.deathCount++;
+                        if(this.deathCount >= 10) {
+                            this.age = PetAge.DEAD;
+                        }
                     }
                     break;
                 case DIRTY:
